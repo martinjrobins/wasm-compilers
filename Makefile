@@ -156,24 +156,7 @@ build/enzyme.BUILT: Enzyme/enzyme build/llvm.BUILT build/enzyme-host.BUILT
 	$(MAKE) -C build/enzyme-build install
 	touch "$@"
 
-${OUTPUT}/cpp.COPIED: build/llvm.BUILT build/enzyme.BUILT
-	mkdir -p ${OUTPUT}/cpp/{bin,lib,include}
-	rsync -avL ${SYSROOT}/lib/clang ${SYSROOT}/lib/wasm32-wasip1-threads ${OUTPUT}/cpp/lib/
-	rsync -avL ${SYSROOT}/include/c++ ${SYSROOT}/include/wasm32-wasip1-threads ${OUTPUT}/cpp/include/
-	rsync -avL ${SYSROOT}/lib/libsupc++.a ${SYSROOT}/lib/libstdc++.a ${OUTPUT}/cpp/lib/
-	mkdir -p ${OUTPUT}/cpp/include/bits
-	touch "$@"
-
-test: test.sh ${OUTPUT}/cpp.COPIED ${OUTPUT}/python.COPIED
-	./test.sh
-
-%.tar: %.COPIED
-	tar c -C $* . > $@
-
-%.tar.br: %.tar
-	brotli $<
-
-${OUTPUT}.DONE: ${OUTPUT}/cpp.tar.br ${OUTPUT}/python.tar.br
+${OUTPUT}.DONE: build/enzyme.BUILT
 
 clean:
 	rm -rf build/
