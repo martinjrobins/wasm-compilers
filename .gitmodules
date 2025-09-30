@@ -12,3 +12,6 @@
 	path = gcc
 	url = https://github.com/veluca93/gcc.git
 	branch = master 
+[submodule "Enzyme"]
+	path = Enzyme
+	url = https://github.com/EnzymeAD/Enzyme.git
